@@ -57,7 +57,7 @@ endif
 
 # Add inputs and outputs from these tool invocations to the build variables 
 AR += \
-/home/rage/dev/projects/arduino/eclipse-workspaces/diy-weatherstation/diyWeatherStation/Release/arduino.ar \
+/home/rage/dev/git/diy-weatherstation/src/diyWeatherStation/Release/arduino.ar \
 
 ELF += \
 diyWeatherStation.elf \
@@ -73,25 +73,25 @@ all: diyWeatherStation
 diyWeatherStation: $(HEX)
 	@echo 'Building target: $@'
 	@echo 'Printing size:'
-	"/home/rage/dev/tools/sloeber//arduinoPlugin/packages/esp8266/tools/xtensa-lx106-elf-gcc/1.20.0-26-gb404fb9-2/bin/xtensa-lx106-elf-size" -A "/home/rage/dev/projects/arduino/eclipse-workspaces/diy-weatherstation/diyWeatherStation/Release/diyWeatherStation.elf"
+	"/home/rage/dev/tools/sloeber//arduinoPlugin/packages/esp8266/tools/xtensa-lx106-elf-gcc/1.20.0-26-gb404fb9-2/bin/xtensa-lx106-elf-size" -A "/home/rage/dev/git/diy-weatherstation/src/diyWeatherStation/Release/diyWeatherStation.elf"
 	@echo 'Finished building target: $@'
 	@echo ' '
 
-/home/rage/dev/projects/arduino/eclipse-workspaces/diy-weatherstation/diyWeatherStation/Release/arduino.ar: $(AR_OBJ)
+/home/rage/dev/git/diy-weatherstation/src/diyWeatherStation/Release/arduino.ar: $(AR_OBJ)
 	@echo 'Starting archiver'
-	"/home/rage/dev/tools/sloeber//arduinoPlugin/packages/esp8266/tools/xtensa-lx106-elf-gcc/1.20.0-26-gb404fb9-2/bin/xtensa-lx106-elf-ar" cru "/home/rage/dev/projects/arduino/eclipse-workspaces/diy-weatherstation/diyWeatherStation/Release/arduino.ar"    /home/rage/dev/projects/arduino/eclipse-workspaces/diy-weatherstation/diyWeatherStation/Release/arduino.ar $(AR_OBJ)
+	"/home/rage/dev/tools/sloeber//arduinoPlugin/packages/esp8266/tools/xtensa-lx106-elf-gcc/1.20.0-26-gb404fb9-2/bin/xtensa-lx106-elf-ar" cru "/home/rage/dev/git/diy-weatherstation/src/diyWeatherStation/Release/arduino.ar"    /home/rage/dev/git/diy-weatherstation/src/diyWeatherStation/Release/arduino.ar $(AR_OBJ)
 	@echo 'Finished building: $@'
 	@echo ' '
 
 diyWeatherStation.elf: $(LINK_OBJ) $(AR)
 	@echo 'Starting combiner'
-	"/home/rage/dev/tools/sloeber//arduinoPlugin/packages/esp8266/tools/xtensa-lx106-elf-gcc/1.20.0-26-gb404fb9-2/bin/xtensa-lx106-elf-gcc" -g -Wall -Wextra -Os -nostdlib -Wl,--no-check-sections -u call_user_start -Wl,-static "-L/home/rage/dev/tools/sloeber//arduinoPlugin/packages/esp8266/hardware/esp8266/2.3.0/tools/sdk/lib" "-L/home/rage/dev/tools/sloeber//arduinoPlugin/packages/esp8266/hardware/esp8266/2.3.0/tools/sdk/ld" "-Teagle.flash.4m.ld" -Wl,--gc-sections -Wl,-wrap,system_restart_local -Wl,-wrap,register_chipv6_phy -o "/home/rage/dev/projects/arduino/eclipse-workspaces/diy-weatherstation/diyWeatherStation/Release/diyWeatherStation.elf" -Wl,--start-group   $(LINK_OBJ) $(AR)  "/home/rage/dev/projects/arduino/eclipse-workspaces/diy-weatherstation/diyWeatherStation/Release/arduino.ar" -lm -lgcc -lhal -lphy -lpp -lnet80211 -lwpa -lcrypto -lmain -lwps -laxtls -lsmartconfig -lmesh -lwpa2 -llwip_gcc -lstdc++ -Wl,--end-group "-L/home/rage/dev/projects/arduino/eclipse-workspaces/diy-weatherstation/diyWeatherStation/Release" /home/rage/dev/projects/arduino/eclipse-workspaces/diy-weatherstation/diyWeatherStation/Release/arduino.ar
+	"/home/rage/dev/tools/sloeber//arduinoPlugin/packages/esp8266/tools/xtensa-lx106-elf-gcc/1.20.0-26-gb404fb9-2/bin/xtensa-lx106-elf-gcc" -g -Wall -Wextra -Os -nostdlib -Wl,--no-check-sections -u call_user_start -Wl,-static "-L/home/rage/dev/tools/sloeber//arduinoPlugin/packages/esp8266/hardware/esp8266/2.3.0/tools/sdk/lib" "-L/home/rage/dev/tools/sloeber//arduinoPlugin/packages/esp8266/hardware/esp8266/2.3.0/tools/sdk/ld" "-Teagle.flash.4m.ld" -Wl,--gc-sections -Wl,-wrap,system_restart_local -Wl,-wrap,register_chipv6_phy -o "/home/rage/dev/git/diy-weatherstation/src/diyWeatherStation/Release/diyWeatherStation.elf" -Wl,--start-group   $(LINK_OBJ) $(AR)  "/home/rage/dev/git/diy-weatherstation/src/diyWeatherStation/Release/arduino.ar" -lm -lgcc -lhal -lphy -lpp -lnet80211 -lwpa -lcrypto -lmain -lwps -laxtls -lsmartconfig -lmesh -lwpa2 -llwip_gcc -lstdc++ -Wl,--end-group "-L/home/rage/dev/git/diy-weatherstation/src/diyWeatherStation/Release" /home/rage/dev/git/diy-weatherstation/src/diyWeatherStation/Release/arduino.ar
 	@echo 'Finished building: $@'
 	@echo ' '
 
 diyWeatherStation.hex: $(ELF)
 	@echo 'Create eeprom image'
-	"/home/rage/dev/tools/sloeber//arduinoPlugin/packages/esp8266/tools/esptool/0.4.9/esptool" -eo "/home/rage/dev/tools/sloeber//arduinoPlugin/packages/esp8266/hardware/esp8266/2.3.0/bootloaders/eboot/eboot.elf" -bo "/home/rage/dev/projects/arduino/eclipse-workspaces/diy-weatherstation/diyWeatherStation/Release/diyWeatherStation.bin" -bm dio -bf 40 -bz 4M -bs .text -bp 4096 -ec -eo "/home/rage/dev/projects/arduino/eclipse-workspaces/diy-weatherstation/diyWeatherStation/Release/diyWeatherStation.elf" -bs .irom0.text -bs .text -bs .data -bs .rodata -bc -ec
+	"/home/rage/dev/tools/sloeber//arduinoPlugin/packages/esp8266/tools/esptool/0.4.9/esptool" -eo "/home/rage/dev/tools/sloeber//arduinoPlugin/packages/esp8266/hardware/esp8266/2.3.0/bootloaders/eboot/eboot.elf" -bo "/home/rage/dev/git/diy-weatherstation/src/diyWeatherStation/Release/diyWeatherStation.bin" -bm dio -bf 40 -bz 4M -bs .text -bp 4096 -ec -eo "/home/rage/dev/git/diy-weatherstation/src/diyWeatherStation/Release/diyWeatherStation.elf" -bs .irom0.text -bs .text -bs .data -bs .rodata -bc -ec
 	@echo 'Finished building: $@'
 	@echo ' '
 

@@ -37,18 +37,25 @@ DHT dht(DHTPIN, DHTTYPE);
 
 void setup(void) {
 	setupLogging();
-	infoln("Weather station starting");
 
-	setupOnBoardLED();
-	setupDustSensor();
-	setupDHTSensor();
+	infoln("Send any key via serial to enter flash mode.");
+	infoln("Waiting 5 seconds.");
+	delay(5000);
+	if (!Serial.available()) {
+		infoln("Weather station starting");
+		connectToWifi();
 
-	connectToWifi();
+		setupOnBoardLED();
+		setupDustSensor();
+		setupDHTSensor();
 
-	infoln("Weather station started");
-	publishCurrentSensorValues();
-	infoln("Going to deep sleep for 10 minutes.");
-	ESP.deepSleep(600e6); //600 seconds => 10 minutes
+		infoln("Weather station started");
+
+		publishCurrentSensorValues();
+		WiFi.disconnect(false);
+		infoln("Going to deep sleep for 10 minutes.");
+		ESP.deepSleep(600e6); //600 seconds => 10 minutes
+	}
 }
 
 void setupLogging() {
@@ -125,10 +132,9 @@ String getValuesFromSensors() {
 	float temperatureRaw = dht.readTemperature();
 	float humidityRaw = dht.readHumidity();
 
-	if(!isnan(temperatureRaw) && !isnan(humidityRaw))
-	{
+	if (!isnan(temperatureRaw) && !isnan(humidityRaw)) {
 		float heatIndexRaw = dht.computeHeatIndex(temperatureRaw, humidityRaw,
-			false);
+		false);
 
 		String temperature = String(temperatureRaw);
 		String humidity = String(humidityRaw);
@@ -138,9 +144,7 @@ String getValuesFromSensors() {
 				+ humidity + " " + heatIndex;
 		digitalWrite(onboardLED, HIGH);
 		return currentResult;
-	}
-	else
-	{
+	} else {
 		infoln("DHT sensor values invalid.");
 		infoln("Waiting 2 seconds and try again.");
 		delay(2000);
@@ -205,4 +209,6 @@ float getDensity() {
 }
 
 void loop() {
+	infoln("Flash mode.");
+	delay(5000);
 }
