@@ -66,5 +66,10 @@
 			<type>2</type>
 			<locationURI>ECLIPSE_HOME/arduinoPlugin/packages/esp8266/hardware/esp8266/2.3.0/libraries/ESP8266mDNS</locationURI>
 		</link>
+		<link>
+			<name>libraries/PubSubClient</name>
+			<type>2</type>
+			<location>/home/rage/Arduino/libraries/PubSubClient</location>
+		</link>
 	</linkedResources>
 </projectDescription>

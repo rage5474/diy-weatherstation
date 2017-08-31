@@ -44,4 +44,5 @@ libraries/DHT_sensor_library \
 libraries/ESP8266WebServer/src \
 libraries/ESP8266WiFi/src \
 libraries/ESP8266mDNS \
+libraries/PubSubClient/src \
 
