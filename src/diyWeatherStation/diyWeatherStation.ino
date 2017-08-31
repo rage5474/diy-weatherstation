@@ -12,7 +12,7 @@ const unsigned int onboardLED = 2;
 
 /*** WIFI CONSTANT ***/
 const char* ssid = "GLAN";
-const char* password = "(KrampfH0ch12)";
+const char* password = "YourPassword";
 
 
 ESP8266WebServer server(80);
